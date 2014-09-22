@@ -6,6 +6,8 @@ import android.app.ProgressDialog;
 import android.util.Log;
 
 //import java.net.CookieStore;
+import net.wholook.wmessage.ui.ErrorDialog;
+
 import java.util.List;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -112,6 +114,9 @@ public class WholookJSONClient extends AsyncTask<WholookURLWithParams,Void,Strin
             System.out.println( "ClientProtocolException=============");
             e.printStackTrace();
         } catch (IOException e2) {
+
+            //ErrorDialog error = new ErrorDialog( strMsg );
+            //error.show();
             System.out.println( "IOException=============");
             e2.printStackTrace();
         }catch( Exception e3){

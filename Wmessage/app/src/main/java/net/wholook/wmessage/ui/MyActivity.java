@@ -1,5 +1,6 @@
 package net.wholook.wmessage.ui;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -43,6 +44,22 @@ public class MyActivity extends ActionBarActivity {
     Context context;
     EditText mDisplay;
     String regid;
+
+
+    private View.OnClickListener errorDialogClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            String packageName = getPackageName();
+            //String className = getClass().getName();
+
+            //kill background activities
+            ActivityManager am = (ActivityManager)getSystemService(ACTIVITY_SERVICE);
+            am.killBackgroundProcesses(packageName);
+
+            //kill foreground activity
+            System.exit(0);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -195,49 +212,59 @@ public class MyActivity extends ActionBarActivity {
                                             }
 
                                         }catch( JSONException e){
-                                            String strMsg = "로그인 작업 실패 본사 연락 바랍니다. ERROR-CODE:(" + WholookError.LOGIN_RESULT_JSONPARSING +")";
+                                            String strMsg = "로그인 작업 실패 본사 연락 바랍니다. ERROR-CODE:(" + WholookError.LOGIN_RESULT_JSONPARSING +")" + "서버 주소 - " + WholookAPI.server_url;
                                             System.out.println( strMsg );
-                                            Toast.makeText(context, strMsg,Toast.LENGTH_LONG).show();
+                                            ErrorDialog error = new ErrorDialog( MyActivity.this,strMsg ,errorDialogClickListener);
+                                            error.show();
                                         }
                                     }
 
                                     @Override
                                     public void responseFaild() {
-                                        String strMsg = "로그인 작업 실패 본사 연락 바랍니다. ERROR-CODE:(" + WholookError.LOGIN_RESPONSE_FAIL +")";
+                                        String strMsg = "로그인 작업 실패. ERROR-CODE:(" + WholookError.LOGIN_RESPONSE_FAIL +")"+ "서버 주소 - " + WholookAPI.server_url;
                                         System.out.println( strMsg );
-                                        Toast.makeText(context, strMsg,Toast.LENGTH_LONG).show();
+                                        ErrorDialog error = new ErrorDialog( MyActivity.this,strMsg ,errorDialogClickListener);
+                                        error.show();
                                     }
                                 });
                                 client.execute( mURLWithParams );
                             }catch( Exception e){
-                                String strMsg = "로그인 작업 실패 본사 연락 바랍니다. ERROR-CODE:(" + WholookError.LOGIN_EXCEPTION +")";
+                                String strMsg = "로그인 작업 실패. ERROR-CODE:(" + WholookError.LOGIN_EXCEPTION +")"+ "서버 주소 - " + WholookAPI.server_url;
                                 System.out.println( strMsg );
-                                Toast.makeText(context, strMsg,Toast.LENGTH_LONG).show();
+                                ErrorDialog error = new ErrorDialog( MyActivity.this,strMsg ,errorDialogClickListener);
+                                error.show();
                             }
                         }else{
-                            String strMsg = "보안 작업 실패 본사 연락 바랍니다. ERROR-CODE:(" + WholookError.HANDSHAKE_UNKNOWN_RESULT +")";
+                            String strMsg = "서버접속 실패. ERROR-CODE:(" + WholookError.HANDSHAKE_RESPONSE_FAIL +")" + "서버 주소 - " + WholookAPI.server_url;
                             System.out.println( strMsg );
-                            Toast.makeText(context, strMsg,Toast.LENGTH_LONG).show();
+                            ErrorDialog error = new ErrorDialog( MyActivity.this,strMsg ,errorDialogClickListener);
+                            error.show();
                         }
                     }
 
                     @Override
-                    public void responseFaild() {
-                        String strMsg = "보안 작업 실패 본사 연락 바랍니다. ERROR-CODE:(" + WholookError.HANDSHAKE_RESPONSE_FAIL +")";
+                    public void responseFaild(){
+                        String strMsg = "서버접속 실패. ERROR-CODE:(" + WholookError.HANDSHAKE_RESPONSE_FAIL +")" + "서버 주소 - " + WholookAPI.server_url;
                         System.out.println( strMsg );
-                        Toast.makeText(context, strMsg,Toast.LENGTH_LONG).show();
+                        ErrorDialog error = new ErrorDialog( MyActivity.this,strMsg ,errorDialogClickListener);
+                        error.show();
                     }
                 });
                 client.execute( mURLWithParams );
             }catch( Exception e){
+
+
                 String strMsg = "보안 작업 실패 본사 연락 바랍니다. ERROR-CODE:(" + WholookError.HANDSHAKE_EXCEPTION +")";
                 System.out.println( strMsg );
-                Toast.makeText(context, strMsg,Toast.LENGTH_LONG).show();
+                ErrorDialog error = new ErrorDialog( MyActivity.this,strMsg ,errorDialogClickListener);
+                error.show();
+                //Toast.makeText(context, strMsg,Toast.LENGTH_LONG).show();
             }
         }else{
             String strMsg = "네트웍이 연결되지 않았습니다. 폰 상태 확인후 재시도 하십시요.";
             System.out.println( strMsg );
-            Toast.makeText(context, strMsg,Toast.LENGTH_LONG).show();
+            ErrorDialog error = new ErrorDialog( MyActivity.this,strMsg ,errorDialogClickListener);
+            error.show();
         }
     }
 
@@ -286,4 +313,14 @@ public class MyActivity extends ActionBarActivity {
             }
         }.execute(null, null, null);
     }
+
+    protected void onDestroy(){
+        Log.d(WholookAPI.LOG_TAG, "----------------MyActivity - onDestroy()----------------");
+        super.onDestroy();
+    }
+    protected void onPause(){
+        Log.d(WholookAPI.LOG_TAG, "----------------MyActivity - onPause()----------------");
+        super.onPause();
+    }
+
 }

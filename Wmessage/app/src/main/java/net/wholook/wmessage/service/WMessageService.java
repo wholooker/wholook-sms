@@ -52,7 +52,7 @@ public class WMessageService extends Service {
     private NotificationCompat.Builder builder;
     private NotificationManager notifyManager;
 
-    private final long ALAMER_TIMER = 1000*60*60; //타이머 분 단위
+    private final long ALAMER_TIMER = 1000*60*1; //타이머 분 단위
     private PackageReceiver pReceiver;
     private BootReceiver bReceiver;
 
@@ -537,10 +537,28 @@ public class WMessageService extends Service {
 
                 PendingIntent pi = PendingIntent.getActivity(getApplicationContext(), 0,new Intent(SENT), 0);
                 SmsManager smsManager = SmsManager.getDefault();
-                smsManager.sendTextMessage(phoneNumber, null, message, pi, null);
-                sms.setAction();
-                count+=1;
-                pref.put(pref.PREF_SEND_MESSAGE_TOTAL_COUNT,count);
+                //*
+                if( message.getBytes().length > 80 ){
+                    ArrayList<String> parts = smsManager.divideMessage(message);
+
+                    int numParts = parts.size();
+                    //ArrayList<PendingIntent> sentIntents = new ArrayList<PendingIntent>();
+
+                    for(int i = 0; i < numParts;i++){
+
+                        smsManager.sendTextMessage(phoneNumber, null, parts.get( i ) , pi, null);
+                        sms.setAction();
+                        count+=1;
+                        pref.put(pref.PREF_SEND_MESSAGE_TOTAL_COUNT,count);
+                        //sentIntents.add(pi);
+                    }
+                    //smsManager.sendMultipartTextMessage(phoneNumber, null, parts, sentIntents, null);
+                }else{
+                    smsManager.sendTextMessage(phoneNumber, null, message, pi, null);
+                    sms.setAction();
+                    count+=1;
+                    pref.put(pref.PREF_SEND_MESSAGE_TOTAL_COUNT,count);
+                }
 
             }catch( Exception e){
                 Log.d(WholookAPI.LOG_TAG,"SEND-MESSAGE-EXCEPTION" + e.getMessage());

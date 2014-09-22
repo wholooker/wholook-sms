@@ -36,7 +36,8 @@ import net.wholook.wmessage.ui.Splash;
  */
 public class WholookAPI {
 
-    public static final String server_url = "http://10.0.1.5:8000";
+    public static final String server_url = "http://10.0.1.51:8000";
+    //public static final String server_url = "http://dev.wholook.net";
     public static final String SENDER_ID = "826729090839"; //APP_GCM_PROJECT_NUMBER
     public static final String LOG_TAG = "WMESSAGE";
 
