@@ -15,6 +15,7 @@ public class WholookPreference {
     public final String PREF_FIELD_ID = "USER_ID";
     public final String PREF_FIELD_PASS = "USER_PASS";
     public final String PREF_FIELD_USER = "USER_NAME";
+    public final String PREF_FIELD_PHONE_NUMBER = "USER_PHONE";
 
     public final String PREF_FIELD_GCM_REG_ID = "GCM_REG_ID";
     public final String PREF_FILED_APP_VERSION = "APP_VERSION";
@@ -24,6 +25,8 @@ public class WholookPreference {
 
     public final String PREF_SERVICE_START_TIME = "START_TIME";
     public final String PREF_SEND_MESSAGE_TOTAL_COUNT = "SEND_MESSAGE_TOTAL";
+
+
 
     //public final String PREF_FIELD_LAST_SUCCESSED_IDS = "SUCCESSED_IDS";
     //public final String PREF_FIELD_SESSION_ID = "sessionid";

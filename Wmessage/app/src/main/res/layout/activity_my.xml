@@ -3,16 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:baselineAligned="true">
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:id="@+id/imageView"
-        android:src="@drawable/ic_wholook"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginTop="50dp" />
+    android:baselineAligned="true"
+    android:theme="@style/AppTheme">
 
     <EditText
         android:layout_width="match_parent"
@@ -20,12 +12,13 @@
         android:inputType="textEmailAddress"
         android:ems="10"
         android:id="@+id/id"
-        android:hint="ID"
-        android:text="admin@wholook.net"
+        android:hint="후룩계정(이메일)"
+        android:text="test@wholook.net"
         android:theme="@style/Theme.Base.Light"
         android:singleLine="true"
         android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp" />
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="40dp" />
 
     <EditText
         android:layout_width="match_parent"
@@ -33,8 +26,8 @@
         android:inputType="textPassword"
         android:ems="10"
         android:id="@+id/pass"
-        android:hint="PASS"
-        android:text="wholook0320"
+        android:hint="비밀번호(4~16자리)"
+        android:text="test"
         android:singleLine="true"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp" />
@@ -53,7 +46,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Log in"
+        android:text="로그인 하기"
         android:id="@+id/button"
         android:onClick="sendMessage"
         android:singleLine="true"
@@ -62,7 +55,7 @@
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
         android:layout_marginTop="30dp"
-        android:background="#ff0ebaff" />
+        android:background="#fffafffb" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -74,13 +67,13 @@
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp" />
 
-    <EditText
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
-        android:ems="10"
-        android:id="@+id/et_info"
+        android:layout_height="100dp"
+        android:id="@+id/imageView"
+        android:src="@drawable/ic_wholook"
         android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp" />
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="50dp" />
 
 </LinearLayout>

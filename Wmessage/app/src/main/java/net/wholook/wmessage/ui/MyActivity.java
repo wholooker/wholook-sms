@@ -3,7 +3,9 @@ package net.wholook.wmessage.ui;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
+import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +16,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.view.View;
 import android.telephony.TelephonyManager;
+import android.telephony.PhoneNumberUtils;
 import android.widget.Toast;
 import android.os.SystemClock;
 
@@ -80,6 +83,9 @@ public class MyActivity extends ActionBarActivity {
 
         WholookPreference pref = new WholookPreference( getApplicationContext() );
 
+
+        pref.put(pref.PREF_FIELD_PHONE_NUMBER,getPhoneNumber());
+
         if( pref.getValue(pref.PREF_FIELD_USER,"").equals("")){
             setContentView(R.layout.activity_my);
             startActivity(new Intent(this,Splash.class));
@@ -95,23 +101,20 @@ public class MyActivity extends ActionBarActivity {
 
             LogIn(id,pass,reg_id);
         }
-        /*
-        mDisplay = (EditText) findViewById(R.id.et_info);
-
-        TelephonyManager systemService = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
-
-        String deviceID = systemService.getDeviceId();
-        String simSerialNumber = systemService.getSimSerialNumber();
-        String PhoneNumber = systemService.getLine1Number();
-        PhoneNumber = PhoneNumber.substring(PhoneNumber.length()-10,PhoneNumber.length());
-        PhoneNumber="0"+PhoneNumber;
-
-        mDisplay.setText("deviceID - " + deviceID + " ,simSerialNumber - " + simSerialNumber +
-                " ,PhoneNumber - " + PhoneNumber + " ,android version - " + android.os.Build.VERSION.SDK_INT );
-        */
-
     }
 
+    public String getPhoneNumber(){
+        TelephonyManager systemService = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+
+        String PhoneNumber = systemService.getLine1Number();
+
+        PhoneNumber = PhoneNumber.substring(PhoneNumber.length()-10,PhoneNumber.length());
+
+        PhoneNumber="0"+PhoneNumber;
+
+        PhoneNumber = PhoneNumberUtils.formatNumber(PhoneNumber);
+        return PhoneNumber;
+    }
     @Override
     protected void onResume() {
         super.onResume();
@@ -170,6 +173,8 @@ public class MyActivity extends ActionBarActivity {
                     public void responseSuccessfuly(String json) {
                         if( json.equals("OK!!")){
                             try{
+                                WholookPreference pref = new WholookPreference( getApplicationContext() );
+
                                 WholookURLWithParams mURLWithParams = new WholookURLWithParams();
                                 mURLWithParams.url = WholookAPI.server_url + "/api/login/";
 
@@ -177,6 +182,7 @@ public class MyActivity extends ActionBarActivity {
                                 json_data.put("email",id);
                                 json_data.put("password",pass);
                                 json_data.put("wsms_token",reg_id);
+                                json_data.put("phone",pref.getValue(pref.PREF_FIELD_PHONE_NUMBER,""));
 
                                 mURLWithParams.nameValuePairs.add( new BasicNameValuePair("__sfdata",json_data.toString()));
                                 WholookJSONClient client = new WholookJSONClient(WholookAPI.httpclient,MyActivity.this, "로그인 중...");
@@ -274,8 +280,10 @@ public class MyActivity extends ActionBarActivity {
 
         if( et_id.isChecked() ){
             btn.setEnabled( true );
+            btn.setBackgroundColor(0xff979797);
         }else{
             btn.setEnabled( false );
+            btn.setBackgroundColor(0xfffafffb);
         }
     }
 

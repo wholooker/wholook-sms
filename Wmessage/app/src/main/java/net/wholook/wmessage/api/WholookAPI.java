@@ -9,35 +9,24 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.params.HttpParams;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
+import org.json.JSONObject;
 
-import android.app.NotificationManager;
 import android.app.ProgressDialog;
-import android.content.Intent;
-import android.os.AsyncTask;
-import android.support.v4.app.NotificationCompat;
-import android.telephony.SmsManager;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
-import android.widget.Toast;
 
-import org.json.JSONObject;
-
-import net.wholook.wmessage.R;
-import net.wholook.wmessage.ui.MyActivity;
 import net.wholook.wmessage.exception.WholookAPIException;
 import net.wholook.wmessage.exception.WholookHttpClientException;
-import net.wholook.wmessage.service.WMessageService;
-import net.wholook.wmessage.ui.Splash;
 
 /**
  * Created by wholook on 14. 8. 31..
  */
 public class WholookAPI {
 
-    public static final String server_url = "http://10.0.1.51:8000";
-    //public static final String server_url = "http://dev.wholook.net";
+    //public static final String server_url = "http://172.17.148.190:8000";
+    public static final String server_url = "http://dev.wholook.net";
     public static final String SENDER_ID = "826729090839"; //APP_GCM_PROJECT_NUMBER
     public static final String LOG_TAG = "WMESSAGE";
 

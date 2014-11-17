@@ -52,7 +52,7 @@ public class WMessageService extends Service {
     private NotificationCompat.Builder builder;
     private NotificationManager notifyManager;
 
-    private final long ALAMER_TIMER = 1000*60*1; //타이머 분 단위
+    private final long ALAMER_TIMER = 1000*60*20; //타이머 분 단위
     private PackageReceiver pReceiver;
     private BootReceiver bReceiver;
 
@@ -129,9 +129,7 @@ public class WMessageService extends Service {
 
 
     public void worker(){
-        System.out.println( "worker()==============================" );
         if( WholookAPI.isNetWorkCheckerNotUI(getApplicationContext(), 3, 5000)){
-
             try{
                 WholookURLWithParams mURLWithParams = new WholookURLWithParams();
                 mURLWithParams.url = WholookAPI.server_url + "/api/wsms/";
@@ -203,11 +201,13 @@ public class WMessageService extends Service {
                                                     String id = pref.getValue(pref.PREF_FIELD_ID,"");
                                                     String pass = pref.getValue(pref.PREF_FIELD_PASS,"");
                                                     String reg_id = pref.getValue(pref.PREF_FIELD_GCM_REG_ID,"");
+                                                    String phone_number = pref.getValue(pref.PREF_FIELD_PHONE_NUMBER,"");
 
                                                     JSONObject json_data = new JSONObject();
                                                     json_data.put("email",id);
                                                     json_data.put("password",pass);
                                                     json_data.put("wsms_token",reg_id);
+                                                    json_data.put("phone",phone_number);
 
                                                     mURLWithParams.nameValuePairs.add( new BasicNameValuePair("__sfdata",json_data.toString()));
                                                     WholookJSONClient client = new WholookJSONClient(WholookAPI.httpclient);

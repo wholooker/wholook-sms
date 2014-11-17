@@ -8,7 +8,7 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.os.AsyncTask;
+
 import android.text.format.Time;
 import android.util.Log;
 
