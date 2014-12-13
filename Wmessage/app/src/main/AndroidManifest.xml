@@ -3,7 +3,7 @@
     package="net.wholook.wmessage" >
 
     <uses-sdk
-        android:minSdkVersion="8"
+        android:minSdkVersion="14"
         android:targetSdkVersion="19" />
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -20,7 +20,7 @@
 
     <uses-permission android:name="net.wholook.wmessage.permission.C2D_MESSAGE" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permissi15dpon android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES"/>
@@ -35,12 +35,12 @@
     <application
         android:name="net.wholook.wmessage.service.WMessageApplication"
         android:allowBackup="true"
-        android:icon="@drawable/ic_wholook_sms2"
+        android:icon="@drawable/ic_wholook"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <!-- -->
         <activity
-            android:name="net.wholook.wmessage.ui.MyActivity"
+            android:name=".ui.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -51,10 +51,10 @@
         <activity
             android:name="net.wholook.wmessage.ui.ConfigActivity"
             android:label="@string/app_name"
-            android:parentActivityName="net.wholook.wmessage.ui.MyActivity" >
+            android:parentActivityName=".ui.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="net.wholook.wmessage.MyActivity" />
+                android:value=".ui.MainActivity" />
         </activity>
 
         <service

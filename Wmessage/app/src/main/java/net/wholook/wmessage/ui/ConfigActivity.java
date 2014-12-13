@@ -7,13 +7,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.ArrayAdapter;
+import android.widget.Switch;
 import android.widget.TextView;
-import android.content.ContentResolver;
-import android.database.Cursor;
-import android.provider.ContactsContract;
-import android.net.Uri;
 
 import net.wholook.wmessage.api.WholookPreference;
 import net.wholook.wmessage.service.WMessageService;
@@ -31,7 +29,7 @@ public class ConfigActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_config);
-        mpref = new WholookPreference(getApplicationContext());
+        mpref = new WholookPreference(this);
 
         String user = mpref.getValue(mpref.PREF_FIELD_USER,"");
         String id = mpref.getValue(mpref.PREF_FIELD_ID,"");
@@ -52,12 +50,20 @@ public class ConfigActivity extends ActionBarActivity {
         ArrayAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, data);
         list.setAdapter(adapter);
 
+        Switch serviceSwitch = (Switch)findViewById(R.id.service_switch);
+        serviceSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // TODO: start/stop service
+            }
+        });
+
         update();
     }
     public void startService( View view ){
 
-        Intent i = new Intent(getApplicationContext(), WMessageService.class);
-        getApplicationContext().startService(i);
+        Intent i = new Intent(this, WMessageService.class);
+        startService(i);
     }
 
     public void refresh( View view ){
@@ -102,9 +108,9 @@ public class ConfigActivity extends ActionBarActivity {
 
             mpref.put( mpref.PREF_FIELD_LOGOUT,true);
 
-            Intent service = new Intent(getApplicationContext(), WMessageService.class);
+            Intent service = new Intent(this, WMessageService.class);
             stopService(service);
-            Intent login = new Intent(getApplicationContext(), MyActivity.class);
+            Intent login = new Intent(this, MainActivity.class);
             startActivity(login);
         }catch( Exception e){
             e.printStackTrace();

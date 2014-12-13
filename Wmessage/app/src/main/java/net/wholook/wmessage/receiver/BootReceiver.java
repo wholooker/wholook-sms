@@ -30,7 +30,7 @@ public class BootReceiver extends BroadcastReceiver {
                 return;
             }
 
-            if( WholookAPI.isNetWorkCheckerNotUI(context.getApplicationContext(), 1000, 5000)){
+            if( WholookAPI.isNetWorkCheckerNotUI(context, 1000, 5000)){
                 Log.d(WholookAPI.LOG_TAG, "BootReceiver - onReceive - Start Service....");
                 Intent i = new Intent(context, WMessageService.class);
                 context.startService(i);

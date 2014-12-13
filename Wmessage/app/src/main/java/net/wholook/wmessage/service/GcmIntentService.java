@@ -1,21 +1,12 @@
 package net.wholook.wmessage.service;
 
 import android.app.IntentService;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Intent;
-import android.content.Context;
-import android.os.Bundle;
-import android.os.SystemClock;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-
-import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import net.wholook.wmessage.api.WholookAPI;
 import net.wholook.wmessage.api.WholookPreference;
 import net.wholook.wmessage.receiver.GcmBroadcastReceiver;
-import net.wholook.wmessage.ui.MyActivity;
 
 
 public class GcmIntentService extends IntentService {

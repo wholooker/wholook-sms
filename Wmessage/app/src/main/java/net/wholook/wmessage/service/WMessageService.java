@@ -5,24 +5,19 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.app.PendingIntent;
 import android.app.AlarmManager;
-import android.os.SystemClock;
 
-import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.app.NotificationManager;
-import android.app.Notification;
 import android.widget.Toast;
 import android.content.IntentFilter;
 
-import android.app.Activity;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.telephony.SmsManager;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.os.Bundle;
 
+import net.wholook.wmessage.R;
 import net.wholook.wmessage.api.SMSParer;
 import net.wholook.wmessage.api.WholookAPI;
 import net.wholook.wmessage.api.WholookError;
@@ -30,12 +25,11 @@ import net.wholook.wmessage.api.WholookJSONClient;
 import net.wholook.wmessage.api.WholookURLWithParams;
 import net.wholook.wmessage.receiver.BootReceiver;
 import net.wholook.wmessage.ui.ConfigActivity;
-import net.wholook.wmessage.ui.MyActivity;
+import net.wholook.wmessage.ui.MainActivity;
 import net.wholook.wmessage.api.WholookPreference;
 import net.wholook.wmessage.receiver.PackageReceiver;
 import net.wholook.wmessage.receiver.RestartReceiver;
 import net.wholook.wmessage.exception.*;
-import net.wholook.wmessage.ui.Splash;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -66,10 +60,10 @@ public class WMessageService extends Service {
 
         Log.d(WholookAPI.LOG_TAG,"WMessageService - onCreate");
 
-        WholookPreference pref = new WholookPreference( getApplicationContext() );
+        WholookPreference pref = new WholookPreference( this );
         String user = pref.getValue(pref.PREF_FIELD_USER,"");
         notifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        builder = new NotificationCompat.Builder(getApplicationContext());
+        builder = new NotificationCompat.Builder(this);
 
 
         if( user.equals("")){
@@ -77,7 +71,7 @@ public class WMessageService extends Service {
             pref.put( pref.PREF_FIELD_LOGOUT,true);
             Intent service = new Intent(this, WMessageService.class);
             stopService(service);
-            Intent login = new Intent(this, MyActivity.class);
+            Intent login = new Intent(this, MainActivity.class);
             startActivity(login);
             return;
         }
@@ -228,14 +222,14 @@ public class WMessageService extends Service {
                                                                     return;
                                                                 }else{
 
-                                                                    Intent intent = new Intent(getApplicationContext(),MyActivity.class);
+                                                                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                                                                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                                                     startActivity(intent);
                                                                     Toast.makeText(getApplicationContext(), "아이디 혹은 패스워드가 올바르지 않습니다.",Toast.LENGTH_SHORT).show();
                                                                 }
 
                                                             }catch( JSONException e){
-                                                                Intent intent = new Intent(getApplicationContext(),MyActivity.class);
+                                                                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                                                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                                                 startActivity(intent);
 
@@ -247,7 +241,7 @@ public class WMessageService extends Service {
 
                                                         @Override
                                                         public void responseFaild() {
-                                                            Intent intent = new Intent(getApplicationContext(),MyActivity.class);
+                                                            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                                                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                                             startActivity(intent);
 
@@ -258,7 +252,7 @@ public class WMessageService extends Service {
                                                     });
                                                     client.execute( mURLWithParams );
                                                 }catch( Exception e){
-                                                    Intent intent = new Intent(getApplicationContext(),MyActivity.class);
+                                                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                                                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                                     startActivity(intent);
 
@@ -267,7 +261,7 @@ public class WMessageService extends Service {
                                                     Toast.makeText(getApplicationContext(), strMsg,Toast.LENGTH_LONG).show();
                                                 }
                                             }else{
-                                                Intent intent = new Intent(getApplicationContext(),MyActivity.class);
+                                                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                                 startActivity(intent);
 
@@ -279,7 +273,7 @@ public class WMessageService extends Service {
 
                                         @Override
                                         public void responseFaild() {
-                                            Intent intent = new Intent(getApplicationContext(),MyActivity.class);
+                                            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                             startActivity(intent);
 
@@ -290,7 +284,7 @@ public class WMessageService extends Service {
                                     });
                                     client.execute( mURLWithParams );
                                 }catch( Exception e){
-                                    Intent intent = new Intent(getApplicationContext(),MyActivity.class);
+                                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(intent);
 
@@ -323,7 +317,7 @@ public class WMessageService extends Service {
                 Toast.makeText(getApplicationContext(), strMsg,Toast.LENGTH_LONG).show();
             }
         }else{
-            Intent intent = new Intent(getApplicationContext(),MyActivity.class);
+            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
 
@@ -337,7 +331,7 @@ public class WMessageService extends Service {
     public void onDestroy(){
         Log.d(WholookAPI.LOG_TAG,"WMessageService - onDestroy");
 
-        WholookPreference pref = new WholookPreference( getApplicationContext() );
+        WholookPreference pref = new WholookPreference( this );
 
         if( pref.getValue(pref.PREF_FIELD_LOGOUT,false)){
 
@@ -376,7 +370,7 @@ public class WMessageService extends Service {
                 .setTicker(NOTI_TICKER)
                 .setAutoCancel( false )
                 .setOngoing( true )
-                .setSmallIcon(android.R.drawable.ic_media_play);
+                .setSmallIcon(R.drawable.ic_wholook_noti);
 
         if( indent != null)builder.setContentIntent(indent);
 
@@ -395,12 +389,12 @@ public class WMessageService extends Service {
         @Override
         protected void onPreExecute() {
             try{
-                builder.setContentTitle("WHOLOOK SMS 실행중...")
-                        .setContentText("SMS를 보내는 중입니다...")
+                builder.setContentTitle(WMessageService.this.getString(R.string.app_name))
+                        .setContentText(WMessageService.this.getString(R.string.status_sending))
                         .setTicker("wholook")
                         .setAutoCancel( false )
                         //.setOngoing( true )
-                        .setSmallIcon(android.R.drawable.ic_media_play);
+                        .setSmallIcon(R.drawable.ic_wholook_noti);
                 notifyManager.notify(NOTI_SMS_SEND_STATE, builder.build());
 
             }catch( Exception e){
@@ -452,8 +446,8 @@ public class WMessageService extends Service {
                         try{
                             JSONObject result = new JSONObject(json);
                             if( result.getInt("result") == 0 ){
-                                builder.setContentTitle("WHOLOOK SMS 전송 완료.")
-                                        .setContentText("SMS를 모두 전송하였습니다.");
+                                builder.setContentTitle(WMessageService.this.getString(R.string.app_name))
+                                        .setContentText(WMessageService.this.getString(R.string.status_complete));
                                 notifyManager.notify(NOTI_SMS_SEND_STATE, builder.build());
 
                             }else{
@@ -465,7 +459,7 @@ public class WMessageService extends Service {
 
                                 String strMsg = "메세지 전송 결과를 전송하다 에러 발생. ERROR-CODE:(" + WholookError.SERVICE_GETMESSAGELIST_UNKNOWN_RESULT +")";
                                 System.out.println( strMsg );
-                                Toast.makeText(getApplicationContext(), strMsg,Toast.LENGTH_LONG).show();
+                                Toast.makeText(WMessageService.this, strMsg,Toast.LENGTH_LONG).show();
                             }
 
                         }catch( JSONException e){
@@ -476,7 +470,7 @@ public class WMessageService extends Service {
 
                             String strMsg = "메세지 전송 결과를 전송하다 에러 발생. ERROR-CODE:(" + WholookError.SERVICE_MESSAGERETURN_JSONEXCEPTION +")";
                             System.out.println( strMsg );
-                            Toast.makeText(getApplicationContext(), strMsg,Toast.LENGTH_LONG).show();
+                            Toast.makeText(WMessageService.this, strMsg,Toast.LENGTH_LONG).show();
                         }finally {
 
                             try{
@@ -494,26 +488,26 @@ public class WMessageService extends Service {
 
                         notifyManager.cancel(NOTI_SMS_SEND_STATE);
                         notifyManager.cancel( NOTI_SERVICE_ID );
-                        Intent intent = new Intent(getApplicationContext(),ConfigActivity.class);
+                        Intent intent = new Intent(WMessageService.this,ConfigActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
 
                         String strMsg = "메세지 전송 결과를 전송하다 에러 발생. ERROR-CODE:(" + WholookError.SERVICE_MESSAGERETURN_RESPONSE_FAIL +")";
                         System.out.println( strMsg );
-                        Toast.makeText(getApplicationContext(), strMsg,Toast.LENGTH_LONG).show();
+                        Toast.makeText(WMessageService.this, strMsg,Toast.LENGTH_LONG).show();
                     }
                 });
                 client.execute( mURLWithParams );
 
             }catch( Exception e){
                 notifyManager.cancel( NOTI_SERVICE_ID );
-                Intent intent = new Intent(getApplicationContext(),ConfigActivity.class);
+                Intent intent = new Intent(WMessageService.this,ConfigActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
 
                 String strMsg = "메세지 전송 결과를 전송하다 에러 발생. ERROR-CODE:(" + WholookError.SERVICE_MESSAGERETURN_EXCEPTION +")";
                 System.out.println( strMsg );
-                Toast.makeText(getApplicationContext(), strMsg,Toast.LENGTH_LONG).show();
+                Toast.makeText(WMessageService.this, strMsg,Toast.LENGTH_LONG).show();
             }finally {
 
                 notifyManager.cancel( NOTI_SMS_SEND_STATE );
@@ -528,14 +522,14 @@ public class WMessageService extends Service {
         {
             String SENT = "SMS_SENT";
             try{
-                WholookPreference pref = new WholookPreference(getApplicationContext());
+                WholookPreference pref = new WholookPreference(WMessageService.this);
 
                 int count = pref.getValue(pref.PREF_SEND_MESSAGE_TOTAL_COUNT,0);
 
                 String phoneNumber = sms.getRECEIVER();
                 String message = sms.getCONTENT();
 
-                PendingIntent pi = PendingIntent.getActivity(getApplicationContext(), 0,new Intent(SENT), 0);
+                PendingIntent pi = PendingIntent.getActivity(WMessageService.this, 0,new Intent(SENT), 0);
                 SmsManager smsManager = SmsManager.getDefault();
                 //*
                 if( message.getBytes().length > 80 ){

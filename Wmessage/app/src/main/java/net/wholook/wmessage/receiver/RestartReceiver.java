@@ -33,7 +33,7 @@ public class RestartReceiver extends BroadcastReceiver {
                 return;
             }
 
-            if( WholookAPI.isNetWorkCheckerNotUI(context.getApplicationContext(), 3, 5000)){
+            if( WholookAPI.isNetWorkCheckerNotUI(context, 3, 5000)){
                 Log.d(WholookAPI.LOG_TAG, "RestartReceiver - onReceive - Start Service....");
                 Intent i = new Intent(context, WMessageService.class);
                 context.startService(i);

@@ -6,117 +6,67 @@
     android:baselineAligned="true"
     android:weightSum="1">
 
-    <ImageView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:id="@+id/imageView"
-        android:src="@drawable/ic_wholook"
-        android:layout_above="@+id/textView"
-        android:layout_alignRight="@+id/btn_logout"
-        android:layout_alignEnd="@+id/btn_logout"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_margin="25dp" />
-
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/lvInfo"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp" />
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp">
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView" >
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:layout_gravity="left">
+            android:padding="15dp"
+            android:baselineAligned="false">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <Switch
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="@android:style/TextAppearance.Medium"
-                android:text="Large Text"
-                android:id="@+id/tv_count"
-                android:layout_gravity="left" />
-        </LinearLayout>
+                android:text="@string/wholook_sms"
+                android:id="@+id/service_switch"
+                android:layout_centerHorizontal="true"
+                android:paddingLeft="10dp"
+                android:layout_margin="10dp" />
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:layout_gravity="right">
-
-            <ImageButton
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/btn_refresh"
-                android:src="@drawable/ic_action_refresh"
-                android:onClick="refresh"
-                android:layout_gravity="right" />
+                android:id="@+id/status"
+                android:background="#ffe0e0e0"
+                android:layout_below="@+id/service_switch"
+                android:layout_margin="10dp">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@android:style/TextAppearance.Medium"
+                    android:text="Large Text"
+                    android:id="@+id/tv_count"
+                    android:layout_gravity="left"
+                    android:layout_centerVertical="true"
+                    android:paddingLeft="15dp" />
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btn_refresh"
+                    android:src="@drawable/ic_action_refresh"
+                    android:onClick="refresh"
+                    android:layout_gravity="right"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
+
+            </RelativeLayout>
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/lvInfo"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/status"
+                android:layout_margin="10dp" />
         </LinearLayout>
-
-    </LinearLayout>
-
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="응급"
-        android:id="@+id/btn_start"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:onClick="startService"
-        android:layout_marginTop="25dp"
-        android:background="#979797" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="등록된 SMS가 전송이 되지 않을경우만 클릭하세요"
-        android:id="@+id/textView3"
-        android:layout_gravity="center|bottom"
-        android:textColor="#ffff3a20" />
-
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Log out"
-        android:id="@+id/btn_logout"
-        android:onClick="logOut"
-        android:textSize="@dimen/abc_action_bar_title_text_size"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginTop="25dp"
-        android:background="#979797"
-        android:layout_gravity="center_horizontal|bottom" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="로그아웃시 서비스가 중단됩니다."
-        android:id="@+id/textView"
-        android:layout_below="@+id/btn_logout"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:textColor="#ffff211a"
-        android:typeface="monospace"
-        android:layout_gravity="center|bottom"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:layout_weight="0.18"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+    </ScrollView>
 
 </LinearLayout>
 
